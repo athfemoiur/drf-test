@@ -18,6 +18,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_user_score(self, obj):
         user = self.context['request'].user
+        if not user.is_authenticated:
+            return None
         score = obj.scores.filter(user=user).first()
         if score:
             return score.score
